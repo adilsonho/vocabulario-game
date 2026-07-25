@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Adilson | Vocabulary Challenge</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">🎓</span>
+        <div class="brand-text">
+          <h1>Teacher Adilson</h1>
+          <p class="subtitle">Vocabulary Challenge</p>
+        </div>
+      </div>
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Alternar tema claro/escuro">🌙</button>
+    </header>
+
+    <main id="main-content">
+
+      <!-- HOME: lesson picker -->
+      <section id="screen-home" class="screen active">
+        <h2 class="screen-title">Escolha sua aula</h2>
+        <p id="home-empty" class="empty-message hidden">Nenhuma aula encontrada em <code>/data</code>.</p>
+        <div id="lesson-list" class="lesson-grid" aria-live="polite"></div>
+      </section>
+
+      <!-- GRID: click a card, see the image, type the word -->
+      <section id="screen-grid" class="screen">
+        <div class="game-topbar">
+          <button class="btn-ghost" data-action="back-home" type="button">← Aulas</button>
+          <h2 id="grid-title" class="screen-title"></h2>
+          <div class="progress-wrap">
+            <span id="grid-progress-label" class="progress-label">0 / 20</span>
+            <div class="progress-bar"><div id="grid-progress-fill" class="progress-fill"></div></div>
+          </div>
+        </div>
+        <div id="card-grid" class="card-grid"></div>
+        <button id="btn-grid-continue" class="btn-primary btn-continue hidden" type="button">Continuar →</button>
+      </section>
+
+      <!-- RESULTS -->
+      <section id="screen-results" class="screen">
+        <div class="results-card">
+          <h2 class="screen-title">Vocabulary Score</h2>
+          <div class="results-stats">
+            <div class="stat">
+              <span class="stat-label">Correct</span>
+              <span id="result-correct" class="stat-value stat-correct">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Wrong</span>
+              <span id="result-wrong" class="stat-value stat-wrong">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Accuracy</span>
+              <span id="result-accuracy" class="stat-value">0%</span>
+            </div>
+          </div>
+          <p id="result-message" class="result-message"></p>
+          <div class="results-actions">
+            <button id="btn-play-again" class="btn-primary" type="button">Play Again</button>
+            <button id="btn-choose-lesson" class="btn-secondary" type="button">Choose another Lesson</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="app-footer">
+      <p>Teacher Adilson · Vocabulary Challenge</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
