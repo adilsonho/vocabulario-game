@@ -146,14 +146,52 @@ const SFX = (() => {
    result if nothing else matched.
 
    Query overrides: the word itself is usually a fine search query, but a
-   few words are too ambiguous on their own (e.g. "man" turns up statues,
-   "board" turns up circuit boards / meeting boards). This map rewrites the
-   search query for just those words — the displayed word and the typed
-   answer are unaffected, only what gets searched for.
+   lot of everyday-object words are ambiguous or return photos with several
+   competing named objects in frame (a student can't guess "which one" —
+   e.g. plain "pen" returned a desk with glasses AND a pen AND paperwork).
+   This map rewrites the search query for just those words — the displayed
+   word and the typed answer are unaffected, only what gets searched for.
+   Built from a manual visual audit of every "concrete object" word in the
+   wordlist; each entry below was checked by eye, not just by title.
    -------------------------------------------------------------------------- */
 const IMAGE_QUERY_OVERRIDES = {
   'man': 'a man portrait',
-  'board': 'classroom board',
+  'board': 'blank whiteboard',
+  'pen': 'ballpoint pen',
+  'book': 'book on white background',
+  'notebook': 'notebook closed',
+  'credit card': 'credit card white background',
+  'driving licence': 'driving license card',
+  'make-up': 'cosmetics on white background',
+  'purse': 'coin purse',
+  'piece of paper': 'blank paper sheet',
+  'stamp': 'postage stamp',
+  'scissors': 'pair of scissors',
+  'glasses': 'reading glasses',
+  'hairbrush': 'hair brush',
+  'nail file': 'nail file manicure',
+  'address book': 'rolodex',
+  'ice': 'ice cube white background',
+  'spoon': 'tablespoon',
+  'sugar': 'sugar cubes white background',
+  'soup': 'vegetable soup bowl',
+  'noodles': 'noodle bowl close up',
+  'vegetable': 'fresh vegetables',
+  'soft drink': 'can of soda',
+  'mouse': 'computer mouse white background',
+  'plasters': 'adhesive bandage box',
+  'mouse mat': 'mouse pad computer',
+  'tie': 'silk necktie',
+  't-shirt': 'plain t-shirt white background',
+  'screen': 'computer screen monitor',
+  'jumper': 'wool jumper sweater',
+  'mirror': 'wall mirror',
+  'disk': 'cd rom disc reflective',
+  'top': 'camisole top',
+  'postcard': 'travel postcard scenic',
+  'coffee': 'cup of coffee',
+  'note': 'sticky note reminder',
+  'letter': 'handwritten letter envelope',
 };
 
 const imageCache = new Map();
@@ -172,7 +210,10 @@ async function resolveImageUrl(word) {
       const data = await res.json();
       const results = data.results || [];
       const hit = results.find((r) => r.source !== 'flickr') || results[0];
-      if (hit) resolved = hit.thumbnail || hit.url || CONFIG.fallbackImage;
+      // Prefer the direct source URL over Openverse's own thumbnail proxy —
+      // testing found the proxy occasionally 424s on otherwise-fine images
+      // (e.g. a verified-good Wikimedia photo) while the original loads fine.
+      if (hit) resolved = hit.url || hit.thumbnail || CONFIG.fallbackImage;
     }
   } catch {
     // Network / rate-limit error — keep the fallback icon.
